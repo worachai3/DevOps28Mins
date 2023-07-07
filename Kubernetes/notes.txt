@@ -29,11 +29,10 @@ kubectl get service
 ## Kubernetes Architecture
 =================Deployment==========================
 =========== Node ========== ========= Node ==========
-====Pod1====   ====Pod2==== === Pod == === Pod=======
-=Ctn1==Ctn2=   =Ctn3==Ctn4= =Ctn1==Ctn2= =Ctn3==Ctn4= 
+====Pod1====   ====Pod2==== === Pod3 == === Pod4 ====
 
 ** Node = replica
-** Pod = container
+** Pod = containers
 
 # Explain commands
 kubectl explain pods
@@ -58,3 +57,27 @@ kubectl get rs -o wide
 kubectl get pods
 kubectl describe pod hello-world-rest-api-75c6fdb7f7-8mvr2
 kubectl get events --sort-by=.metadata.creationTimestamp
+
+# Show deployment history of deployment hello-world-rest-api
+kubectl rollout history deployment hello-world-rest-api
+
+REVISION  CHANGE-CAUSE
+1         <none>
+2         <none>
+3         <none>
+
+# When deploy new version add --record option
+kubectl set image deployment hello-world-rest-api hello-world-rest-api=in28min/hello-world-rest-api:0.0.3.RELEASE --record=true
+
+kubectl rollout history deployment hello-world-rest-api
+REVISION  CHANGE-CAUSE
+1         <none>
+2         <none>
+3         <none>
+4         kubectl.exe set image deployment hello-world-rest-api hello-world-rest-api=in28min/hello-world-rest-api:0.0.3.RELEASE --record=true
+
+# Rollback
+kubectl rollout undo deployment hello-world-rest-api --to-revision=1
+
+# Logs
+kubectl logs -f hello-world-rest-api-6c4bcf8796-8nwl8
