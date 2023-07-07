@@ -1,0 +1,60 @@
+# Deploy ---> create deployment, replicaset & pod
+kubectl create deployment hello-world-rest-api --image=in28min/hello-world-rest-api:0.0.1.RELEASE
+
+# Expose ---> create service
+kubectl expose deployment hello-world-rest-api --type=LoadBalancer --port=8080
+
+# Show events in kube
+kubectl get events
+
+10m         Warning   KubeletStart                             node/gke-cluster-1-default-pool-f1bf53d9-rwrt   Started Kubernetes kubelet.
+10m         Warning   NodeSysctlChange                         node/gke-cluster-1-default-pool-f1bf53d9-rwrt   {"unmanaged": {"net.netfilter.nf_conntrack_buckets": "32768"}}
+7m51s       Warning   NodeRegistrationCheckerDidNotRunChecks   node/gke-cluster-1-default-pool-f1bf53d9-rwrt   Fri Jul  7 19:34:19 UTC 2023 - **     Node ready and registered. **
+4m57s       Normal    Scheduled                                pod/hello-world-rest-api-6c4bcf8796-bswns       Successfully assigned default/hello-world-rest-api-6c4bcf8796-bswns to gke-cluster-1-default-pool-f1bf53d9-rwrt
+4m56s       Normal    Pulling                                  pod/hello-world-rest-api-6c4bcf8796-bswns       Pulling image "in28min/hello-world-rest-api:0.0.1.RELEASE"
+4m49s       Normal    Pulled                                   pod/hello-world-rest-api-6c4bcf8796-bswns       Successfully pulled image "in28min/hello-world-rest-api:0.0.1.RELEASE" in 6.874400247s (6.874438377s including waiting)
+4m49s       Normal    Created                                  pod/hello-world-rest-api-6c4bcf8796-bswns       Created container hello-world-rest-api
+4m49s       Normal    Started                                  pod/hello-world-rest-api-6c4bcf8796-bswns       Started container hello-world-rest-api
+4m57s       Normal    SuccessfulCreate                         replicaset/hello-world-rest-api-6c4bcf8796      Created pod: hello-world-rest-api-6c4bcf8796-bswns
+4m57s       Normal    ScalingReplicaSet                        deployment/hello-world-rest-api                 Scaled up replica set hello-world-rest-api-6c4bcf8796 to 1
+3m53s       Normal    EnsuringLoadBalancer                     service/hello-world-rest-api                    Ensuring load balancer
+3m17s       Normal    EnsuredLoadBalancer                      service/hello-world-rest-api                    Ensured load balancer
+
+# Get commands
+kubectl get pods
+kubectl get deployment
+kubectl get nodes
+kubectl get service
+
+## Kubernetes Architecture
+=================Deployment==========================
+=========== Node ========== ========= Node ==========
+====Pod1====   ====Pod2==== === Pod == === Pod=======
+=Ctn1==Ctn2=   =Ctn3==Ctn4= =Ctn1==Ctn2= =Ctn3==Ctn4= 
+
+** Node = replica
+** Pod = container
+
+# Explain commands
+kubectl explain pods
+
+# Describe commands
+kubectl describe pod hello-world-rest-api-6c4bcf8796-bswns
+
+## To connect pod-pod, deployment-deployment we use labels/selectors
+
+# Delete commands
+kubectl delete pod hello-world-rest-api-6c4bcf8796-bswns
+
+# Scale
+kubectl scale deployment hello-world-rest-api --replicas=3
+
+# Deploy new image
+kubectl set image deployment hello-world-rest-api hello-world-rest-api=DUMMY_IMAGE:TEST
+                            <deployment name>       <container name>    <image name>
+
+# Commands for inspect error
+kubectl get rs -o wide
+kubectl get pods
+kubectl describe pod hello-world-rest-api-75c6fdb7f7-8mvr2
+kubectl get events --sort-by=.metadata.creationTimestamp
