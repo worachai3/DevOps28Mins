@@ -81,3 +81,11 @@ kubectl rollout undo deployment hello-world-rest-api --to-revision=1
 
 # Logs
 kubectl logs -f hello-world-rest-api-6c4bcf8796-8nwl8
+
+# Get deployment with yaml
+kubectl get deployment -o yaml
+
+----------------------
+
+# Apply change with yaml file
+kubectl apply -f deployment.yaml
