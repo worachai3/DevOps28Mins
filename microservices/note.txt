@@ -1,0 +1,46 @@
+## Deployment file for microservices
+
+          requests:
+            cpu: 100m
+            memory: 512mi
+
+get 100m of 1024m cpu when started pod
+and 512mi of memory
+
+          limits:
+            cpu: 500m
+            memory: 1024mi
+
+limit to 500m out of 1024m per pod
+and 1024mi
+
+        readinessProbe:
+          httpGet:
+            path: /
+            port: liveness-port
+          failureThreshold: 5
+          periodSeconds: 10
+          initialDelaySeconds: 60
+
+This is to check readiness of pod by send get request to path (/), port (liveness-port) which is configed
+failure can happen 5 times maximum each request will be send every 10 seconds and this probe will give 60 seconds
+delay for pod to start
+
+        ports:
+        - name: liveness-port
+          containerPort: 8080
+
+Assign name liveness-port to port 8000
+
+If this probe get success from get request then pod will be ready
+
+        livenessProbe:
+          httpGet:
+            path: /
+            port: liveness-port
+          failureThreshold: 5
+          periodSeconds: 10
+          initialDelaySeconds: 60
+
+This probe will check if pod need to be restarted if this probe doesn't get response for 5 times
+this pod will be restarted
