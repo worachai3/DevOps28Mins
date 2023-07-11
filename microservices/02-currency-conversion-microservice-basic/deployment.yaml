@@ -6,7 +6,7 @@ metadata:
   name: currency-conversion
   namespace: default
 spec:
-  replicas: 2 #CHANGE
+  replicas: 1 #CHANGE
   minReadySeconds: 45
   selector:
     matchLabels:
@@ -25,6 +25,13 @@ spec:
       - image: in28min/currency-conversion:0.0.1-RELEASE #CHANGE
         imagePullPolicy: IfNotPresent
         name: currency-conversion
+        resources: #CHANGE
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi #256Mi 
         # env:
         #   - name: CURRENCY_EXCHANGE_SERVICE_HOST
         #     value: http://currency-exchange
