@@ -89,3 +89,34 @@ kubectl get deployment -o yaml
 
 # Apply change with yaml file
 kubectl apply -f deployment.yaml
+
+# Get rs, deployment, service
+kubectl get all
+
+# Delete rs, deployment, service with labels
+kubectl delete all -l app=hello-world-rest-api
+
+# Show diff between deployed with deployment.yaml
+kubectl diff -f deployment.yaml
+
+## Deployment map to pods using selector/labels
+## Service map to pods using selector/labels
+
+## minReadySeconds: 45 this configure will give time to deployment before taking down all pods to reduce downtime
+
+## ReplicaSet don't have strategy section
+## If replica set is used when apply with new version running pods aren't getting updated until the pod is deleted
+## then the new pod will be up (Only care about how many pods are up.)
+
+## Deployment will see how many instance of any specific ReplicaSet are live ##
+
+-----------------------
+
+# Debugging commands
+kubectl get svc --all-namespaces --sort-by=.metadata.name
+
+kubectl cluster-info
+kubectl cluster-info dump
+
+kubectl top node
+kubectl top pod
