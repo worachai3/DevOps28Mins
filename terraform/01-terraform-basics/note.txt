@@ -1,0 +1,3 @@
+When install terraform, providers are not already installed so we have to install it seperately
+
+terraform init
