@@ -34,12 +34,11 @@ spec:
             memory: 512Mi #256Mi 
         env:
           - name: CURRENCY_EXCHANGE_SERVICE_HOST
-            value: http://currency-exchange
-        
-        #     valueFrom: 
-        #       configMapKeyRef:
-        #         key: CURRENCY_EXCHANGE_SERVICE_HOST
-        #         name: currency-conversion-config-map
+            # value: http://currency-exchange
+            valueFrom: 
+              configMapKeyRef:
+                key: CURRENCY_EXCHANGE_SERVICE_HOST
+                name: currency-conversion-config-map
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
 ---

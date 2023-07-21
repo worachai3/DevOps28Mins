@@ -50,4 +50,26 @@ this pod will be restarted
             value: http://currency-exchange
 
 These lines in 02-currency-conversion-microservices/deployment.yaml define environment variables for currency_exchange_service
-value come from service name (currency-exchange) that's why we define value = http://currency-exchange
+value come from service name (currency-exchange) that's why we define value = http://currency-exchange, this is called
+Kubernetes Service Discovery (KSD). KSD provide load balancing and DNS
+
+
+Centrailzed Configuration
+
+apiVersion: v1
+data:
+  CURRENCY_EXCHANGE_SERVICE_HOST: http://currency-exchange
+kind: ConfigMap
+metadata:
+  name: currency-conversion-config-map
+  namespace: default
+
+This is what stored in config map. Each service has to use variables from this configmap to do that add this to deployment.yaml
+
+          - name: CURRENCY_EXCHANGE_SERVICE_HOST
+            # value: http://currency-exchange  <---- DON'T HARDCODE IT IN LIKE THIS
+            valueFrom: 
+              configMapKeyRef:
+                key: CURRENCY_EXCHANGE_SERVICE_HOST
+                name: currency-conversion-config-map
+
