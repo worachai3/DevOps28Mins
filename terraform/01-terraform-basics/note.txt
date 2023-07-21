@@ -50,3 +50,15 @@ When terraform apply are run terraform look at tfstate and compare with actual s
 To store plan into file use command
 
 terraform plan -out iam.tfplan
+
+##########################################
+Update only aws_iam_user.my_iam_user
+
+terraform apply -target="aws_iam_user.my_iam_user"
+
+#########################################
+tfstate backup store previous state before apply change
+
+If tfstate is lost terraform will not know what is the previous state and will not be able to compare with actual state
+
+We should not commit tfstate to git because it contains sensitive information
