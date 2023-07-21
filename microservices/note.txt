@@ -44,3 +44,10 @@ If this probe get success from get request then pod will be ready
 
 This probe will check if pod need to be restarted if this probe doesn't get response for 5 times
 this pod will be restarted
+
+        env:
+          - name: CURRENCY_EXCHANGE_SERVICE_HOST
+            value: http://currency-exchange
+
+These lines in 02-currency-conversion-microservices/deployment.yaml define environment variables for currency_exchange_service
+value come from service name (currency-exchange) that's why we define value = http://currency-exchange
