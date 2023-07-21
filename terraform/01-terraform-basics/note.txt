@@ -46,3 +46,7 @@ Result of previous execution and stored in tfstate
 State on cloud
 
 When terraform apply are run terraform look at tfstate and compare with actual state this called refreshing state then compare with desired state
+
+To store plan into file use command
+
+terraform plan -out iam.tfplan
