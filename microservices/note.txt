@@ -73,3 +73,14 @@ This is what stored in config map. Each service has to use variables from this c
                 key: CURRENCY_EXCHANGE_SERVICE_HOST
                 name: currency-conversion-config-map
 
+##########################
+LoadBalancer are really expensive so we don't want multiple LoadBalancer, we have something to centrailzed and route request to appropriate microservices
+that's why we have "Ingress"
+
+Recap kube structure
+
+Node ---- Pod
+      --- Pod
+
+When we change type of service from LoadBalancer to nodePort, now it's mean port on the node is expose to be able to connected.
+But we don't have external-ip for nodePort. Go to ingress.yaml
