@@ -62,3 +62,8 @@ tfstate backup store previous state before apply change
 If tfstate is lost terraform will not know what is the previous state and will not be able to compare with actual state
 
 We should not commit tfstate to git because it contains sensitive information
+
+#####################################
+After practice terraform we should destroy all resource with
+
+terraform destroy
