@@ -1,0 +1,10 @@
+length(var.list_of_strings) -- length of list
+reverse(var.list_of_strings) -- reverse list
+distinct(var.list_of_strings) -- remove duplicates
+toset(var.list_of_strings) -- convert list to set
+concat(var.list_of_strings, ["new", "list"]) -- concat two lists
+contains(var.list_of_strings, "new") -- check if list contains element
+sort(var.list_of_strings) -- sort list
+range(10) -- create list of numbers from 0 to 9
+range(5, 10) -- create list of numbers from 5 to 9
+range(5, 10, 2) -- create list of numbers from 5 to 9 with step 2
