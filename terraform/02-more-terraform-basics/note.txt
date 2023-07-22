@@ -1,0 +1,22 @@
+terraform fmt
+terraform validate
+terraform show
+terraform plan -o iam.tfplan
+
+# Variables in terraform
+
+variable "iam_user_name_prefix" {
+  default = "my_iam_user"
+}
+
+when define variable in terraform, if type is not defined then it will be any by default
+
+export TF_VAR_iam_user_name_prefix="FROM_ENV_VAR" -- Environment variable
+terraform apply -var 'iam_user_name_prefix=FROM_COMMAND_LINE' -- Command line variable
+terraform apply -var-file="terraform.tfvars" -- terraform.tfvars file
+
+variables priority
+- default value
+- Environment variables
+- terraform.tfvars
+- command line
