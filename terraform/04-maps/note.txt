@@ -1,0 +1,6 @@
+var.names
+keys(var.names)
+values(var.names)
+
+lookup(var.names, "a")
+lookup(var.names, "b", "return this if not found b")
