@@ -4,3 +4,15 @@ values(var.names)
 
 lookup(var.names, "a")
 lookup(var.names, "b", "return this if not found b")
+
+FAQ
+
+Q: Why do we need terraform.tfstate?
+A: - To map the real world to the terraform world. Terraform.tfstate is the only source of truth for terraform.
+   It is the only way terraform knows what is going on in the real world.
+   - meta data: what is the resource id, what is the resource name, what is the resource type, what is the resource provider
+   - perfomance: terraform.tfstate is used to determine what needs to be created, updated, or deleted.
+
+Q: Why do we create many terraform projects?
+A: Best practice - Group resources having similar lifecycles
+   and create separate terraform projects for each group.
