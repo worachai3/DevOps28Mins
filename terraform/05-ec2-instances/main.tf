@@ -19,6 +19,24 @@ data "aws_subnets" "default_subnets" {
   }  
 }
 
+data "aws_ami" "aws-linux-2-latest" {
+  most_recent = true
+  owners = ["amazon"]
+  filter {
+    name   = "name"
+    values = ["amzn2-ami-kernel-5.10-hvm*"]
+  }
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+}
+
+data "aws_ami_ids" "aws-linux-2-latest_ids" {
+  owners = ["amazon"]
+}
+
 // HTTP Server -> SG
 // SG -> -> 80 TCP, SSH -> 22 TCP, CIDR ["0.0.0.0/0"] means allow all
 
@@ -53,7 +71,7 @@ resource "aws_security_group" "http_server_sg" {
 }
 
 resource "aws_instance" "http_server" {
-  ami                    = "ami-05548f9cecf47b442"
+  ami                    = data.aws_ami.aws-linux-2-latest.id
   key_name               = "default-ec2"
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.http_server_sg.id]
