@@ -6,12 +6,25 @@ provider "aws" {
   region = "us-east-1"
 }
 
+resource "aws_default_vpc" "default" {
+  tags = {
+    Name = "Default VPC"
+  }
+}
+
+data "aws_subnets" "default_subnets" {
+  filter {
+    name   = "vpc-id"
+    values = [aws_default_vpc.default.id]
+  }  
+}
+
 // HTTP Server -> SG
 // SG -> -> 80 TCP, SSH -> 22 TCP, CIDR ["0.0.0.0/0"] means allow all
 
 resource "aws_security_group" "http_server_sg" {
   name   = "http_server_sg"
-  vpc_id = "vpc-03c6728a60cd303f7"
+  vpc_id = aws_default_vpc.default.id
 
   ingress {
     from_port   = 80
@@ -44,7 +57,7 @@ resource "aws_instance" "http_server" {
   key_name               = "default-ec2"
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.http_server_sg.id]
-  subnet_id              = "subnet-0bd6c677b7d826064"
+  subnet_id              = data.aws_subnets.default_subnets.ids[3]
 
   connection {
     type        = "ssh"
