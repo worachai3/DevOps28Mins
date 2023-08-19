@@ -1,6 +1,4 @@
-variable "aws_key_pair" {
-  default = "./default-ec2.pem"
-}
+
 
 provider "aws" {
   region = "us-east-1"
@@ -10,31 +8,6 @@ resource "aws_default_vpc" "default" {
   tags = {
     Name = "Default VPC"
   }
-}
-
-data "aws_subnets" "default_subnets" {
-  filter {
-    name   = "vpc-id"
-    values = [aws_default_vpc.default.id]
-  }  
-}
-
-data "aws_ami" "aws-linux-2-latest" {
-  most_recent = true
-  owners = ["amazon"]
-  filter {
-    name   = "name"
-    values = ["amzn2-ami-kernel-5.10-hvm*"]
-  }
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-}
-
-data "aws_ami_ids" "aws-linux-2-latest_ids" {
-  owners = ["amazon"]
 }
 
 // HTTP Server -> SG
